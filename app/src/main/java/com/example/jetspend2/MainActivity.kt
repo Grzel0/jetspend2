@@ -1,17 +1,21 @@
 package com.example.jetspend2
 
 import android.os.Bundle
+import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -26,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetspend2.ui.theme.Jetspend2Theme
@@ -55,7 +60,7 @@ fun menedzerwydatkow(){
     
     Column(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(value = wydatek.value, onValueChange = {wydatek.value = it}, label = { Text(
-            text = "Wprowadź wydatek")}
+            text = "Wprowadź wydatek")}, keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
         )
         Row {
             TextField(value = wyborkategorii.value, onValueChange = {}, readOnly = true)
@@ -83,9 +88,13 @@ fun menedzerwydatkow(){
         LazyColumn {
             items(wydatki) { (wydatek, category) ->
                 Text(text = "$wydatek - $category", modifier = Modifier
-                .fillMaxWidth().padding(4.dp))
+                    .fillMaxWidth()
+                    .padding(4.dp))
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        val wszystko = wydatki.sumBy { it.first.toIntOrNull() ?: 0 }
+        Text(text = "Suma wydatków: $wszystko")
     }
 }
 
