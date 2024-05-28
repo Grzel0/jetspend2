@@ -48,7 +48,7 @@ fun menedzerwydatkow(){
     val wydatek = remember {
         mutableStateOf("")
     }
-    val wydatki = remember { mutableStateListOf<String>()}
+    val wydatki = remember { mutableStateListOf<Pair<String, String>>()}
     val kategoria = listOf("Jedzenie", "Rozrywka", "Edukacja")
     val wyborkategorii = remember{ mutableStateOf(kategoria[0])}
     var expanded by remember { mutableStateOf(false)}
@@ -74,15 +74,15 @@ fun menedzerwydatkow(){
         }
         Button(onClick = { 
         if (wydatek.value.isNotEmpty()){
-            wydatki.add(wydatek.value)
+            wydatki.add(wydatek.value to wyborkategorii.value)
             wydatek.value = ""
         }
         }) {
            Text(text = "Dodaj wydatek") 
         }
         LazyColumn {
-            items(wydatki) { wydatek ->
-                Text(text = "$wydatek", modifier = Modifier
+            items(wydatki) { (wydatek, category) ->
+                Text(text = "$wydatek - $category", modifier = Modifier
                 .fillMaxWidth().padding(4.dp))
             }
         }
